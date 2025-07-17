@@ -1,0 +1,2922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bekx Hotel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
+    <style>
+        /* Global Styles */
+        :root {
+            --primary: #c19a6b;
+            --primary-dark: #8c6e4a;
+            --secondary: #1a2a3a;
+            --light: #f8f5f2;
+            --dark: #0a0a0a;
+            --text: #333333;
+            --text-light: #777777;
+            --white: #ffffff;
+            --overlay: rgba(0, 0, 0, 0.6);
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-color: var(--light);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: var(--secondary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary);
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 30px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+
+        .btn:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .text-primary {
+            color: var(--primary);
+        }
+
+        /* Header & Navigation */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 0;
+            transition: var(--transition);
+        }
+
+        .header.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: var(--shadow);
+            padding: 10px 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--white);
+            font-family: 'Playfair Display', serif;
+            transition: var(--transition);
+        }
+
+        .header.scrolled .logo {
+            color: var(--secondary);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .header.scrolled .nav-toggle {
+            color: var(--secondary);
+        }
+
+        .nav-list {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-link {
+            color: var(--white);
+            font-weight: 500;
+            position: relative;
+            padding: 5px 0;
+            transition: var(--transition);
+        }
+
+        .header.scrolled .nav-link {
+            color: var(--secondary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            min-height: 700px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            color: var(--white);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--overlay);
+            z-index: 1;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            animation: zoomIn 20s infinite alternate;
+        }
+
+        @keyframes zoomIn {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.1);
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease-out 0.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--white);
+            font-size: 1.5rem;
+            animation: bounce 2s infinite;
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-20px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+        }
+
+        /* About Section */
+        .about {
+            background-color: var(--white);
+            position: relative;
+        }
+
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-img {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            transform: translateX(-50px);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .about-img.animated {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .about-img img {
+            width: 100%;
+            height: auto;
+            transition: var(--transition);
+        }
+
+        .about-img:hover img {
+            transform: scale(1.05);
+        }
+
+        .about-content {
+            transform: translateX(50px);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .about-content.animated {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .about-title {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+
+        .about-text {
+            margin-bottom: 30px;
+            color: var(--text-light);
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .feature-text {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* Rooms Section */
+        .rooms {
+            background-color: var(--light);
+            position: relative;
+        }
+
+        .rooms-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .rooms-filter {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .room-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .room-card.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .room-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .room-img {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .room-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .room-card:hover .room-img img {
+            transform: scale(1.1);
+        }
+
+        .room-price {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: 600;
+            box-shadow: var(--shadow);
+        }
+
+        .room-details {
+            padding: 25px;
+        }
+
+        .room-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .room-description {
+            color: var(--text-light);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .room-features {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .room-feature {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .room-feature i {
+            color: var(--primary);
+        }
+
+        .room-btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Dining Section */
+        .dining {
+            background-color: var(--white);
+            position: relative;
+        }
+
+        .dining-hero {
+            height: 60vh;
+            min-height: 500px;
+            position: relative;
+            margin-bottom: 80px;
+            overflow: hidden;
+        }
+
+        .dining-hero-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            animation: zoomIn 15s infinite alternate;
+        }
+
+        .dining-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--overlay);
+            z-index: 1;
+        }
+
+        .dining-hero-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--white);
+            padding: 0 20px;
+        }
+
+        .dining-hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .dining-hero-subtitle {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .dining-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+            margin-bottom: 80px;
+        }
+
+        .dining-text {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: var(--transition);
+        }
+
+        .dining-text.animated {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .dining-title {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+
+        .dining-description {
+            margin-bottom: 30px;
+            color: var(--text-light);
+        }
+
+        .dining-highlights {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .highlight-card {
+            background-color: var(--light);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .highlight-card.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .highlight-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .highlight-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .highlight-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .highlight-text {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .dining-menu {
+            margin-top: 50px;
+        }
+
+        .menu-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 50px;
+            color: var(--secondary);
+        }
+
+        .menu-categories {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .menu-category {
+            padding: 8px 20px;
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .menu-category:hover, .menu-category.active {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-item {
+            background-color: var(--light);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .menu-item.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .menu-item-img {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .menu-item-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .menu-item:hover .menu-item-img img {
+            transform: scale(1.1);
+        }
+
+        .menu-item-content {
+            padding: 20px;
+        }
+
+        .menu-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .menu-item-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .menu-item-price {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .menu-item-description {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Amenities Section */
+        .amenities {
+            background-color: var(--light);
+            position: relative;
+        }
+
+        .amenities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .amenity-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .amenity-card.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .amenity-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .amenity-img {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .amenity-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .amenity-card:hover .amenity-img img {
+            transform: scale(1.1);
+        }
+
+        .amenity-content {
+            padding: 25px;
+            text-align: center;
+        }
+
+        .amenity-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            transition: var(--transition);
+        }
+
+        .amenity-card:hover .amenity-icon {
+            transform: scale(1.2);
+        }
+
+        .amenity-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .amenity-description {
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        /* Special Offers Section */
+        .offers {
+            background-color: var(--white);
+            position: relative;
+        }
+
+        .offers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .offer-card {
+            background-color: var(--light);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(30px);
+            position: relative;
+        }
+
+        .offer-card.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .offer-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .offer-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: 600;
+            z-index: 2;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .offer-img {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .offer-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .offer-card:hover .offer-img img {
+            transform: scale(1.1);
+        }
+
+        .offer-content {
+            padding: 25px;
+        }
+
+        .offer-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .offer-description {
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        .offer-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .offer-detail {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .offer-detail i {
+            color: var(--primary);
+        }
+
+        .offer-price {
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .offer-price span {
+            font-size: 1rem;
+            color: var(--text-light);
+            text-decoration: line-through;
+            margin-left: 10px;
+        }
+
+        /* Gallery Section */
+        .gallery {
+            background-color: var(--light);
+            position: relative;
+        }
+
+        .gallery-filter {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .gallery-category {
+            padding: 8px 20px;
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .gallery-category:hover, .gallery-category.active {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .gallery-category::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .gallery-category:hover::after, .gallery-category.active::after {
+            width: 100%;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 250px;
+            cursor: pointer;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: var(--transition);
+        }
+
+        .gallery-item.animated {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-icon {
+            font-size: 2rem;
+            color: var(--white);
+            margin-bottom: 10px;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover .gallery-icon {
+            transform: translateY(0);
+        }
+
+        .gallery-title {
+            color: var(--white);
+            font-weight: 600;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover .gallery-title {
+            transform: translateY(0);
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .lightbox.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .lightbox-img {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: var(--white);
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            padding: 0 20px;
+        }
+
+        .lightbox-btn {
+            color: var(--white);
+            font-size: 2rem;
+            cursor: pointer;
+            background-color: rgba(0, 0, 0, 0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Location Section */
+        .location {
+            background-color: var(--white);
+            position: relative;
+        }
+
+        .location-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .location-map {
+            height: 500px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: var(--transition);
+        }
+
+        .location-map.animated {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .map-loader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .map-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(193, 154, 107, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .map-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: none;
+        }
+
+        .location-content {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: var(--transition);
+        }
+
+        .location-content.animated {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .location-title {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+
+        .location-text {
+            margin-bottom: 30px;
+            color: var(--text-light);
+        }
+
+        .location-features {
+            margin-bottom: 30px;
+        }
+
+        .location-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .location-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .location-feature-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .location-feature-text {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* Contact Section */
+        .contact {
+            background-color: var(--light);
+            position: relative;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+
+        .contact-info {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: var(--transition);
+        }
+
+        .contact-info.animated {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .contact-title {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+
+        .contact-text {
+            margin-bottom: 30px;
+            color: var(--text-light);
+        }
+
+        .contact-details {
+            margin-bottom: 30px;
+        }
+
+        .contact-detail {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .contact-detail-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .contact-detail-text {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .contact-social {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--primary);
+            font-size: 1.2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background-color: var(--primary);
+            color: var(--white);
+            transform: translateY(-5px);
+        }
+
+        .contact-form {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            transform: translateX(50px);
+            transition: var(--transition);
+        }
+
+        .contact-form.animated {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-label {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            color: var(--text-light);
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .form-input:focus + .form-label,
+        .form-input:not(:placeholder-shown) + .form-label {
+            top: -10px;
+            left: 10px;
+            font-size: 0.8rem;
+            background-color: var(--white);
+            padding: 0 5px;
+            color: var(--primary);
+        }
+
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 15px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .form-submit i {
+            margin-left: 5px;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--secondary);
+            color: var(--white);
+            padding: 80px 0 30px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-col-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .footer-text {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-link {
+            color: rgba(255, 255, 255, 0.7);
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .footer-link:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .footer-contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+        }
+
+        .footer-contact-icon {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-top: 3px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .footer-social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--white);
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+
+        .footer-social-link:hover {
+            background-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .footer-newsletter-form {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .footer-newsletter-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 30px 0 0 30px;
+            font-family: inherit;
+        }
+
+        .footer-newsletter-input:focus {
+            outline: none;
+        }
+
+        .footer-newsletter-btn {
+            padding: 10px 15px;
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 0 30px 30px 0;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .footer-newsletter-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        /* Book Now Button */
+        .book-now {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            animation: pulseGlow 2s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 0 0 0 rgba(193, 154, 107, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(193, 154, 107, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(193, 154, 107, 0);
+            }
+        }
+
+        .book-now-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 25px;
+            background-color: var(--primary);
+            color: var(--white);
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition);
+        }
+
+        .book-now-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-5px);
+        }
+
+        .book-now-icon {
+            font-size: 1.2rem;
+        }
+
+        .book-now-tooltip {
+            position: absolute;
+            bottom: 100%;
+            right: 0;
+            background-color: var(--secondary);
+            color: var(--white);
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+            width: 200px;
+            text-align: center;
+        }
+
+        .book-now-btn:hover .book-now-tooltip {
+            opacity: 1;
+            transform: translateY(-5px);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .section {
+                padding: 80px 0;
+            }
+
+            .about-container,
+            .dining-content,
+            .location-container,
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .about-img,
+            .about-content,
+            .dining-text,
+            .location-map,
+            .location-content,
+            .contact-info,
+            .contact-form {
+                transform: none !important;
+            }
+
+            .dining-hero {
+                height: 50vh;
+                min-height: 400px;
+                margin-bottom: 60px;
+            }
+
+            .dining-hero-title {
+                font-size: 3rem;
+            }
+
+            .rooms-grid,
+            .amenities-grid,
+            .offers-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 60px 0;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .hero-btns {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .nav-list {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 350px;
+                height: 100vh;
+                background-color: var(--white);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: var(--transition);
+                box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-list.active {
+                right: 0;
+            }
+
+            .nav-link {
+                color: var(--secondary);
+                font-size: 1.2rem;
+            }
+
+            .dining-hero {
+                height: 40vh;
+                min-height: 300px;
+            }
+
+            .dining-hero-title {
+                font-size: 2.5rem;
+            }
+
+            .menu-items {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 576px) {
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .about-features,
+            .dining-highlights {
+                grid-template-columns: 1fr;
+            }
+
+            .rooms-grid,
+            .amenities-grid,
+            .offers-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-newsletter-form {
+                flex-direction: column;
+            }
+
+            .footer-newsletter-input {
+                border-radius: 30px;
+                margin-bottom: 10px;
+            }
+
+            .footer-newsletter-btn {
+                border-radius: 30px;
+                width: 100%;
+            }
+        }
+
+        /* Reduced motion preference */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="#" class="logo">Bekx Hotel</a>
+            <button class="nav-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="#home" class="nav-link">Home</a></li>
+                    <li><a href="#rooms" class="nav-link">Rooms & Suites</a></li>
+                    <li><a href="#dining" class="nav-link">Dining</a></li>
+                    <li><a href="#amenities" class="nav-link">Amenities</a></li>
+                    <li><a href="#offers" class="nav-link">Special Offers</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <video class="hero-video" autoplay muted loop>
+            <source src="c:\Users\user\Downloads\Hilton. For The Stay. _ Digital Check In _ Shining Gold (1) - Copy.mp4" type="video/mp4">
+        </video>
+        <div class="hero-content">
+            <h1 class="hero-title">Experience Unparalleled Luxury</h1>
+            <p class="hero-subtitle">Discover the perfect blend of elegance, comfort, and world-class service at Grand Horizon Luxury Resort</p>
+            <div class="hero-btns">
+                <a href="#rooms" class="btn">Explore Rooms</a>
+                <a href="#contact" class="btn btn-secondary">Contact Us</a>
+            </div>
+        </div>
+        <a href="#about" class="scroll-down">
+            <i class="fas fa-chevron-down"></i>
+        </a>
+    </section>
+
+    <!-- About Section -->
+    <section class="section about" id="about">
+        <div class="container about-container">
+            <div class="about-img">
+                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Luxury Hotel">
+            </div>
+            <div class="about-content">
+                <h2 class="section-title">Welcome to Grand Horizon</h2>
+                <p class="about-text">Nestled in the heart of pristine landscapes, Grand Horizon offers an unforgettable experience of luxury and tranquility. Our resort combines timeless elegance with modern comforts to create a sanctuary for discerning travelers.</p>
+                <div class="about-features">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-concierge-bell"></i>
+                        </div>
+                        <div>
+                            <h4 class="feature-title">Personalized Service</h4>
+                            <p class="feature-text">24/7 concierge and butler service for all guests</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-umbrella-beach"></i>
+                        </div>
+                        <div>
+                            <h4 class="feature-title">Beachfront Location</h4>
+                            <p class="feature-text">Private beach access with premium amenities</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-spa"></i>
+                        </div>
+                        <div>
+                            <h4 class="feature-title">Award-Winning Spa</h4>
+                            <p class="feature-text">World-class treatments and wellness programs</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <div>
+                            <h4 class="feature-title">Gourmet Dining</h4>
+                            <p class="feature-text">Michelin-starred chefs create culinary masterpieces</p>
+                        </div>
+                    </div>
+                </div>
+                <a href="#rooms" class="btn">Explore Our Rooms</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rooms Section -->
+    <section class="section rooms" id="rooms">
+        <div class="container">
+            <div class="rooms-header">
+                <h2 class="section-title">Rooms & Suites</h2>
+                <p class="section-subtitle">Each of our luxurious accommodations is designed to provide the ultimate in comfort and style, with breathtaking views and premium amenities.</p>
+            </div>
+            <div class="rooms-filter">
+                <button class="filter-btn active" data-filter="all">All Rooms</button>
+                <button class="filter-btn" data-filter="deluxe">Deluxe</button>
+                <button class="filter-btn" data-filter="executive">Executive</button>
+                <button class="filter-btn" data-filter="suite">Suites</button>
+                <button class="filter-btn" data-filter="presidential">Presidential</button>
+            </div>
+            <div class="rooms-grid">
+                <div class="room-card" data-category="deluxe">
+                    <div class="room-img">
+                        <img src="https://images.unsplash.com/photo-1596178065887-1198b6148b2b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Deluxe Room">
+                        <div class="room-price">$350/night</div>
+                    </div>
+                    <div class="room-details">
+                        <h3 class="room-title">Deluxe Room</h3>
+                        <p class="room-description">Spacious rooms with elegant decor, premium bedding, and modern amenities for a comfortable stay.</p>
+                        <div class="room-features">
+                            <span class="room-feature"><i class="fas fa-bed"></i> King Bed</span>
+                            <span class="room-feature"><i class="fas fa-ruler-combined"></i> 45 m²</span>
+                            <span class="room-feature"><i class="fas fa-wifi"></i> Free WiFi</span>
+                            <span class="room-feature"><i class="fas fa-tv"></i> Smart TV</span>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="room-card" data-category="executive">
+                    <div class="room-img">
+                        <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Executive Room">
+                        <div class="room-price">$450/night</div>
+                    </div>
+                    <div class="room-details">
+                        <h3 class="room-title">Executive Room</h3>
+                        <p class="room-description">Larger accommodations with separate seating area, enhanced amenities, and premium views.</p>
+                        <div class="room-features">
+                            <span class="room-feature"><i class="fas fa-bed"></i> King Bed</span>
+                            <span class="room-feature"><i class="fas fa-ruler-combined"></i> 60 m²</span>
+                            <span class="room-feature"><i class="fas fa-wifi"></i> Free WiFi</span>
+                            <span class="room-feature"><i class="fas fa-coffee"></i> Nespresso</span>
+                        </div>
+                     
+                    </div>
+                </div>
+                <div class="room-card" data-category="suite">
+                    <div class="room-img">
+                        <img src="https://images.unsplash.com/photo-1566669437685-5d84c2bed8b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Junior Suite">
+                        <div class="room-price">$650/night</div>
+                    </div>
+                    <div class="room-details">
+                        <h3 class="room-title">Junior Suite</h3>
+                        <p class="room-description">Separate living and sleeping areas with luxurious furnishings and premium amenities.</p>
+                        <div class="room-features">
+                            <span class="room-feature"><i class="fas fa-bed"></i> King Bed</span>
+                            <span class="room-feature"><i class="fas fa-ruler-combined"></i> 80 m²</span>
+                            <span class="room-feature"><i class="fas fa-wifi"></i> Free WiFi</span>
+                            <span class="room-feature"><i class="fas fa-bath"></i> Jacuzzi</span>
+                        </div>
+                
+                    </div>
+                </div>
+                <div class="room-card" data-category="suite">
+                    <div class="room-img">
+                        <img src="https://images.unsplash.com/photo-1582719471383-0d0a0f3dfee6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Executive Suite">
+                        <div class="room-price">$850/night</div>
+                    </div>
+                    <div class="room-details">
+                        <h3 class="room-title">Executive Suite</h3>
+                        <p class="room-description">Spacious suite with separate living room, dining area, and premium amenities.</p>
+                        <div class="room-features">
+                            <span class="room-feature"><i class="fas fa-bed"></i> King Bed</span>
+                            <span class="room-feature"><i class="fas fa-ruler-combined"></i> 100 m²</span>
+                            <span class="room-feature"><i class="fas fa-wifi"></i> Free WiFi</span>
+                            <span class="room-feature"><i class="fas fa-hot-tub"></i> Private Spa</span>
+                        </div>
+                       
+                    </div>
+                </div>
+                <div class="room-card" data-category="presidential">
+                    <div class="room-img">
+                        <img src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Presidential Suite">
+                        <div class="room-price">$1,500/night</div>
+                    </div>
+                    <div class="room-details">
+                        <h3 class="room-title">Presidential Suite</h3>
+                        <p class="room-description">Our most luxurious accommodation with expansive living spaces and premium services.</p>
+                        <div class="room-features">
+                            <span class="room-feature"><i class="fas fa-bed"></i> King Bed</span>
+                            <span class="room-feature"><i class="fas fa-ruler-combined"></i> 150 m²</span>
+                            <span class="room-feature"><i class="fas fa-wifi"></i> Free WiFi</span>
+                            <span class="room-feature"><i class="fas fa-user-tie"></i> Butler Service</span>
+                        </div>
+                       
+                    </div>
+                </div>
+                <div class="room-card" data-category="deluxe">
+                    <div class="room-img">
+                        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Deluxe Ocean View">
+                        <div class="room-price">$400/night</div>
+                    </div>
+                    <div class="room-details">
+                        <h3 class="room-title">Deluxe Ocean View</h3>
+                        <p class="room-description">Spacious rooms with stunning ocean views, premium bedding, and modern amenities.</p>
+                        <div class="room-features">
+                            <span class="room-feature"><i class="fas fa-bed"></i> King Bed</span>
+                            <span class="room-feature"><i class="fas fa-ruler-combined"></i> 45 m²</span>
+                            <span class="room-feature"><i class="fas fa-wifi"></i> Free WiFi</span>
+                            <span class="room-feature"><i class="fas fa-umbrella-beach"></i> Ocean View</span>
+                        </div>
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dining Section -->
+    <section class="section dining" id="dining">
+        <div class="dining-hero">
+            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Fine Dining" class="dining-hero-img">
+            <div class="dining-hero-content">
+                <h2 class="dining-hero-title">Culinary Excellence</h2>
+                <p class="dining-hero-subtitle">Experience world-class dining with our award-winning restaurants featuring Michelin-starred chefs and the finest ingredients from around the globe.</p>
+               
+            </div>
+        </div>
+        <div class="container">
+            <div class="dining-content">
+                <div class="dining-text">
+                    <h2 class="dining-title">A Feast for the Senses</h2>
+                    <p class="dining-description">At Grand Horizon, we believe dining should be an unforgettable experience. Our culinary team crafts exquisite menus that celebrate local flavors while incorporating international techniques and ingredients.</p>
+                    <p class="dining-description">From fresh seafood caught daily to premium cuts of meat and organic produce from our partner farms, every dish tells a story of quality and passion.</p>
+                    <a href="#contact" class="btn">Make a Reservation</a>
+                </div>
+                <div class="dining-highlights">
+                    <div class="highlight-card">
+                        <div class="highlight-icon">
+                            <i class="fas fa-wine-glass-alt"></i>
+                        </div>
+                        <h4 class="highlight-title">Sommelier Selection</h4>
+                        <p class="highlight-text">Our extensive wine cellar features over 500 labels from renowned vineyards worldwide.</p>
+                    </div>
+                    <div class="highlight-card">
+                        <div class="highlight-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <h4 class="highlight-title">Signature Dishes</h4>
+                        <p class="highlight-text">Chef's tasting menus showcase seasonal ingredients and culinary innovation.</p>
+                    </div>
+                    <div class="highlight-card">
+                        <div class="highlight-icon">
+                            <i class="fas fa-sun"></i>
+                        </div>
+                        <h4 class="highlight-title">Sunset Dining</h4>
+                        <p class="highlight-text">Private beachfront dining with breathtaking views of the ocean horizon.</p>
+                    </div>
+                    <div class="highlight-card">
+                        <div class="highlight-icon">
+                            <i class="fas fa-cocktail"></i>
+                        </div>
+                        <h4 class="highlight-title">Mixology Bar</h4>
+                        <p class="highlight-text">Artisanal cocktails crafted with premium spirits and house-made ingredients.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="dining-menu" id="menu">
+                <h3 class="menu-title">Our Menus</h3>
+                <div class="menu-categories">
+                    <button class="menu-category active" data-category="breakfast">Breakfast</button>
+                    <button class="menu-category" data-category="lunch">Lunch</button>
+                    <button class="menu-category" data-category="dinner">Dinner</button>
+                    <button class="menu-category" data-category="dessert">Dessert</button>
+                    <button class="menu-category" data-category="drinks">Drinks</button>
+                </div>
+                <div class="menu-items">
+                    <div class="menu-item" data-category="breakfast">
+                        <div class="menu-item-img">
+                            <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Continental Breakfast">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-title">Continental Breakfast</h4>
+                                <span class="menu-item-price">$25</span>
+                            </div>
+                            <p class="menu-item-description">Fresh pastries, seasonal fruits, artisanal cheeses, and premium coffee selection.</p>
+                        </div>
+                    </div>
+                    <div class="menu-item" data-category="breakfast">
+                        <div class="menu-item-img">
+                            <img src="https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1498&q=80" alt="American Breakfast">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-title">American Breakfast</h4>
+                                <span class="menu-item-price">$32</span>
+                            </div>
+                            <p class="menu-item-description">Farm eggs any style, artisanal bacon, sausage, roasted potatoes, and toast.</p>
+                        </div>
+                    </div>
+                    <div class="menu-item" data-category="lunch">
+                        <div class="menu-item-img">
+                            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" alt="Seafood Salad">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-title">Seafood Salad</h4>
+                                <span class="menu-item-price">$28</span>
+                            </div>
+                            <p class="menu-item-description">Fresh catch of the day with mixed greens, avocado, and citrus vinaigrette.</p>
+                        </div>
+                    </div>
+                    <div class="menu-item" data-category="lunch">
+                        <div class="menu-item-img">
+                            <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1527&q=80" alt="Truffle Pasta">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-title">Truffle Pasta</h4>
+                                <span class="menu-item-price">$36</span>
+                            </div>
+                            <p class="menu-item-description">House-made pasta with wild mushrooms, black truffle, and parmesan cream.</p>
+                        </div>
+                    </div>
+                    <div class="menu-item" data-category="dinner">
+                        <div class="menu-item-img">
+                            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80" alt="Filet Mignon">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-title">Filet Mignon</h4>
+                                <span class="menu-item-price">$58</span>
+                            </div>
+                            <p class="menu-item-description">8oz prime cut with truffle mashed potatoes and seasonal vegetables.</p>
+                        </div>
+                    </div>
+                    <div class="menu-item" data-category="dinner">
+                        <div class="menu-item-img">
+                            <img src="https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Lobster Thermidor">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-title">Lobster Thermidor</h4>
+                                <span class="menu-item-price">$75</span>
+                            </div>
+                            <p class="menu-item-description">Maine lobster with brandy cream sauce, gruyère cheese, and herb crust.</p>
+                        </div>
+                    </div>
+                    <div class="menu-item" data-category="dessert">
+                        <div class="menu-item-img">
+                            <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1557&q=80" alt="Chocolate Soufflé">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-title">Chocolate Soufflé</h4>
+                                <span class="menu-item-price">$18</span>
+                            </div>
+                            <p class="menu-item-description">Warm chocolate soufflé with vanilla bean ice cream and raspberry coulis.</p>
+                        </div>
+                    </div>
+                    <div class="menu-item" data-category="dessert">
+                        <div class="menu-item-img">
+                            <img src="https://images.unsplash.com/photo-1562440499-64c9a111f713?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1587&q=80" alt="Crème Brûlée">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-title">Crème Brûlée</h4>
+                                <span class="menu-item-price">$16</span>
+                            </div>
+                            <p class="menu-item-description">Classic vanilla bean custard with caramelized sugar crust and fresh berries.</p>
+                        </div>
+                    </div>
+                    <div class="menu-item" data-category="drinks">
+                        <div class="menu-item-img">
+                            <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Signature Cocktails">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-title">Signature Cocktails</h4>
+                                <span class="menu-item-price">$18</span>
+                            </div>
+                            <p class="menu-item-description">Handcrafted cocktails using premium spirits and house-made ingredients.</p>
+                        </div>
+                    </div>
+                    <div class="menu-item" data-category="drinks">
+                        <div class="menu-item-img">
+                            <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Wine Selection">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-title">Wine Selection</h4>
+                                <span class="menu-item-price">$12+</span>
+                            </div>
+                            <p class="menu-item-description">Extensive selection of international wines by the glass or bottle.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Amenities Section -->
+    <section class="section amenities" id="amenities">
+        <div class="container">
+            <h2 class="section-title">Resort Amenities</h2>
+            <p class="section-subtitle">Discover our world-class facilities designed to enhance your stay and create unforgettable experiences.</p>
+            <div class="amenities-grid">
+                <div class="amenity-card">
+                    <div class="amenity-img">
+                        <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Infinity Pool">
+                    </div>
+                    <div class="amenity-content">
+                        <div class="amenity-icon">
+                            <i class="fas fa-swimming-pool"></i>
+                        </div>
+                        <h3 class="amenity-title">Infinity Pool</h3>
+                        <p class="amenity-description">Our stunning infinity-edge pool offers breathtaking ocean views and premium cabana service.</p>
+                        <a href="#" class="btn btn-secondary">Learn More</a>
+                    </div>
+                </div>
+                <div class="amenity-card">
+                    <div class="amenity-img">
+                        <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Luxury Spa">
+                    </div>
+                    <div class="amenity-content">
+                        <div class="amenity-icon">
+                            <i class="fas fa-spa"></i>
+                        </div>
+                        <h3 class="amenity-title">Luxury Spa</h3>
+                        <p class="amenity-description">Indulge in our award-winning spa treatments with expert therapists and premium products.</p>
+                  
+                    </div>
+                </div>
+                <div class="amenity-card">
+                    <div class="amenity-img">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Fitness Center">
+                    </div>
+                    <div class="amenity-content">
+                        <div class="amenity-icon">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                        <h3 class="amenity-title">Fitness Center</h3>
+                        <p class="amenity-description">State-of-the-art equipment with personal training services and wellness classes.</p>
+                      
+                    </div>
+                </div>
+                <div class="amenity-card">
+                    <div class="amenity-img">
+                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Private Beach">
+                    </div>
+                    <div class="amenity-content">
+                        <div class="amenity-icon">
+                            <i class="fas fa-umbrella-beach"></i>
+                        </div>
+                        <h3 class="amenity-title">Private Beach</h3>
+                        <p class="amenity-description">Exclusive beach access with premium loungers, water sports, and butler service.</p>
+                    
+                    </div>
+                </div>
+                <div class="amenity-card">
+                    <div class="amenity-img">
+                        <img src="https://images.unsplash.com/photo-1534258936925-c58bed479fcb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1631&q=80" alt="Business Center">
+                    </div>
+                    <div class="amenity-content">
+                        <div class="amenity-icon">
+                            <i class="fas fa-business-time"></i>
+                        </div>
+                        <h3 class="amenity-title">Business Center</h3>
+                        <p class="amenity-description">Fully equipped meeting rooms and workspaces with premium technology support.</p>
+                   
+                    </div>
+                </div>
+                <div class="amenity-card">
+                    <div class="amenity-img">
+                        <img src="https://images.unsplash.com/photo-1602002418816-5c0aeef426aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Kids Club">
+                    </div>
+                    <div class="amenity-content">
+                        <div class="amenity-icon">
+                            <i class="fas fa-child"></i>
+                        </div>
+                        <h3 class="amenity-title">Kids Club</h3>
+                        <p class="amenity-description">Supervised activities and entertainment for our youngest guests aged 4-12.</p>
+        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Offers Section -->
+    <section class="section offers" id="offers">
+        <div class="container">
+            <h2 class="section-title">Special Offers</h2>
+            <p class="section-subtitle">Take advantage of our exclusive packages and seasonal promotions for an enhanced stay.</p>
+            <div class="offers-grid">
+                <div class="offer-card">
+                    <div class="offer-badge">30% OFF</div>
+                    <div class="offer-img">
+                        <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Early Bird Special">
+                    </div>
+                    <div class="offer-content">
+                        <h3 class="offer-title">Early Bird Special</h3>
+                        <p class="offer-description">Book your stay 60 days in advance and enjoy significant savings on our premium accommodations.</p>
+                        <div class="offer-details">
+                            <span class="offer-detail"><i class="far fa-calendar-alt"></i> Valid until Dec 2023</span>
+                            <span class="offer-detail"><i class="far fa-clock"></i> Minimum 3 nights</span>
+                        </div>
+                        <div class="offer-price">$245 <span>$350</span></div>
+                   
+                    </div>
+                </div>
+                <div class="offer-card">
+                    <div class="offer-badge">HONEYMOON</div>
+                    <div class="offer-img">
+                        <img src="https://images.unsplash.com/photo-1523438885200-e635ba2c371e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Romantic Escape">
+                    </div>
+                    <div class="offer-content">
+                        <h3 class="offer-title">Romantic Escape</h3>
+                        <p class="offer-description">Celebrate your love with our special honeymoon package including champagne and spa credits.</p>
+                        <div class="offer-details">
+                            <span class="offer-detail"><i class="far fa-calendar-alt"></i> Year-round</span>
+                            <span class="offer-detail"><i class="fas fa-gift"></i> $200 resort credit</span>
+                        </div>
+                        <div class="offer-price">$1,200 <span>$1,500</span></div>
+                  
+                    </div>
+                </div>
+                <div class="offer-card">
+                    <div class="offer-badge">FAMILY</div>
+                    <div class="offer-img">
+                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Family Package">
+                    </div>
+                    <div class="offer-content">
+                        <h3 class="offer-title">Family Package</h3>
+                        <p class="offer-description">Special rates for families with complimentary meals for children and daily activities.</p>
+                        <div class="offer-details">
+                            <span class="offer-detail"><i class="far fa-calendar-alt"></i> Summer season</span>
+                            <span class="offer-detail"><i class="fas fa-child"></i> Kids stay & eat free</span>
+                        </div>
+                        <div class="offer-price">$1,800 <span>$2,200</span></div>
+                 
+                    </div>
+                </div>
+                <div class="offer-card">
+                    <div class="offer-badge">SPA</div>
+                    <div class="offer-img">
+                        <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Wellness Retreat">
+                    </div>
+                    <div class="offer-content">
+                        <h3 class="offer-title">Wellness Retreat</h3>
+                        <p class="offer-description">Rejuvenate with our wellness package including daily spa treatments and fitness classes.</p>
+                        <div class="offer-details">
+                            <span class="offer-detail"><i class="far fa-calendar-alt"></i> Jan-Mar 2024</span>
+                            <span class="offer-detail"><i class="fas fa-spa"></i> 3 treatments included</span>
+                        </div>
+                        <div class="offer-price">$2,100 <span>$2,600</span></div>
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="section gallery" id="gallery">
+        <div class="container">
+            <h2 class="section-title">Gallery</h2>
+            <p class="section-subtitle">Explore the beauty of Grand Horizon through our photo collection showcasing the resort, accommodations, and surroundings.</p>
+            <div class="gallery-filter">
+                <button class="gallery-category active" data-category="all">All</button>
+                <button class="gallery-category" data-category="rooms">Rooms</button>
+                <button class="gallery-category" data-category="dining">Dining</button>
+                <button class="gallery-category" data-category="amenities">Amenities</button>
+                <button class="gallery-category" data-category="views">Views</button>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item" data-category="rooms">
+                    <img src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Luxury Suite" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-expand gallery-icon"></i>
+                        <h4 class="gallery-title">Presidential Suite</h4>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="dining">
+                    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Fine Dining" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-expand gallery-icon"></i>
+                        <h4 class="gallery-title">Signature Restaurant</h4>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="amenities">
+                    <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Infinity Pool" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-expand gallery-icon"></i>
+                        <h4 class="gallery-title">Infinity Pool</h4>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="views">
+                    <img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1368&q=80" alt="Ocean View" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-expand gallery-icon"></i>
+                        <h4 class="gallery-title">Sunset View</h4>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="rooms">
+                    <img src="https://images.unsplash.com/photo-1582719471383-0d0a0f3dfee6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Executive Suite" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-expand gallery-icon"></i>
+                        <h4 class="gallery-title">Executive Suite</h4>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="dining">
+                    <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Cocktail Bar" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-expand gallery-icon"></i>
+                        <h4 class="gallery-title">Mixology Bar</h4>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="amenities">
+                    <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Luxury Spa" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-expand gallery-icon"></i>
+                        <h4 class="gallery-title">Spa Treatment Room</h4>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="views">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1473&q=80" alt="Beach View" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-expand gallery-icon"></i>
+                        <h4 class="gallery-title">Private Beach</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox">
+        <div class="lightbox-content">
+            <img src="" alt="" class="lightbox-img">
+            <button class="lightbox-close">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="lightbox-nav">
+                <button class="lightbox-btn prev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="lightbox-btn next">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Location Section -->
+    <section class="section location" id="location">
+        <div class="container location-container">
+            <div class="location-map">
+                <div class="map-loader">
+                    <div class="map-spinner"></div>
+                </div>
+                <iframe class="map-frame" frameborder="0" style="border:0" allowfullscreen></iframe>
+            </div>
+            <div class="location-content">
+                <h2 class="location-title">Our Location</h2>
+                <p class="location-text">Grand Horizon Luxury Resort is conveniently located in a pristine beachfront setting, just 20 minutes from the international airport and 15 minutes from the city center.</p>
+                <div class="location-features">
+                    <div class="location-feature">
+                        <div class="location-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h4 class="location-feature-title">Address</h4>
+                            <p class="location-feature-text">123 Oceanview Boulevard, Paradise Island</p>
+                        </div>
+                    </div>
+                    <div class="location-feature">
+                        <div class="location-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div>
+                            <h4 class="location-feature-title">Phone</h4>
+                            <p class="location-feature-text">+1 (555) 123-4567</p>
+                        </div>
+                    </div>
+                    <div class="location-feature">
+                        <div class="location-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4 class="location-feature-title">Email</h4>
+                            <p class="location-feature-text">bekamdufera@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="location-feature">
+                        <div class="location-icon">
+                            <i class="fas fa-plane"></i>
+                        </div>
+                        <div>
+                            <h4 class="location-feature-title">Nearest Airport</h4>
+                            <p class="location-feature-text">Paradise Island International (PID) - 20 min drive</p>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="btn">Get Directions</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section contact" id="contact">
+        <div class="container contact-container">
+            <div class="contact-info">
+                <h2 class="contact-title">Contact Us</h2>
+                <p class="contact-text">Our concierge team is available 24/7 to assist with reservations, special requests, or any questions you may have about your upcoming stay.</p>
+                <div class="contact-details">
+                    <div class="contact-detail">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div>
+                            <h4 class="contact-detail-title">Reservations</h4>
+                            <p class="contact-detail-text">+1 (555) 123-4567</p>
+                        </div>
+                    </div>
+                    <div class="contact-detail">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4 class="contact-detail-title">Email</h4>
+                            <p class="contact-detail-text">bekamdufera@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-detail">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h4 class="contact-detail-title">Address</h4>
+                            <p class="contact-detail-text">123 Oceanview Boulevard<br>Paradise Island</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-social">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                  
+                </div>
+            </div>
+            <form class="contact-form">
+                <div class="form-group">
+                    <input type="text" class="form-input" id="name" placeholder=" ">
+                    <label for="name" class="form-label">Full Name</label>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-input" id="email" placeholder=" ">
+                    <label for="email" class="form-label">Email Address</label>
+                </div>
+                <div class="form-group">
+                    <input type="tel" class="form-input" id="phone" placeholder=" ">
+                    <label for="phone" class="form-label">Phone Number</label>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-input" id="subject" placeholder=" ">
+                    <label for="subject" class="form-label">Subject</label>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-input form-textarea" id="message" placeholder=" "></textarea>
+                    <label for="message" class="form-label">Your Message</label>
+                </div>
+                <button type="submit" class="btn form-submit">Send Message <i class="fas fa-paper-plane"></i></button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <div class="footer-logo">Grand Horizon</div>
+                    <p class="footer-text">Experience unparalleled luxury and service at our award-winning beachfront resort. Grand Horizon offers the perfect blend of relaxation, adventure, and culinary excellence.</p>
+                    <div class="footer-social">
+                        <a href="#" class="footer-social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="footer-social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="footer-social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="footer-social-link"><i class="fab fa-tripadvisor"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3 class="footer-col-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home" class="footer-link">Home</a></li>
+                        <li><a href="#rooms" class="footer-link">Rooms & Suites</a></li>
+                        <li><a href="#dining" class="footer-link">Dining</a></li>
+                        <li><a href="#amenities" class="footer-link">Amenities</a></li>
+                        <li><a href="#offers" class="footer-link">Special Offers</a></li>
+                        <li><a href="#contact" class="footer-link">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3 class="footer-col-title">Contact Info</h3>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-map-marker-alt footer-contact-icon"></i>
+                        <span>123 Oceanview Boulevard, Paradise Island</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-phone-alt footer-contact-icon"></i>
+                        <span>+1 (555) 123-4567</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-envelope footer-contact-icon"></i>
+                        <span>reservations@grandhorizon.com</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-clock footer-contact-icon"></i>
+                        <span>24/7 Reception</span>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3 class="footer-col-title">Newsletter</h3>
+                    <p class="footer-text">Subscribe to our newsletter for exclusive offers, events, and resort updates.</p>
+                    <form class="footer-newsletter-form">
+                        <input type="email" class="footer-newsletter-input" placeholder="Your Email">
+                        <button type="submit" class="footer-newsletter-btn">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Grand Horizon Luxury Resort. All Rights Reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms & Conditions</a></p>
+            </div>
+        </div>
+    </footer>
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+    <script>
+        // Navigation Toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navList = document.querySelector('.nav-list');
+
+        navToggle.addEventListener('click', () => {
+            navList.classList.toggle('active');
+            navToggle.innerHTML = navList.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+
+        // Smooth Scrolling for Navigation Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (navList.classList.contains('active')) {
+                        navList.classList.remove('active');
+                        navToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                    }
+                }
+            });
+        });
+
+        // Header Scroll Effect
+        const header = document.querySelector('.header');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Initialize AOS (Animate On Scroll)
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true,
+            offset: 100
+        });
+
+        // Room Filter
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const roomCards = document.querySelectorAll('.room-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterBtns.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                const filter = btn.getAttribute('data-filter');
+                
+                roomCards.forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Menu Filter
+        const menuCategories = document.querySelectorAll('.menu-category');
+        const menuItems = document.querySelectorAll('.menu-item');
+
+        menuCategories.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                menuCategories.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                const filter = btn.getAttribute('data-category');
+                
+                menuItems.forEach(item => {
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Gallery Filter
+        const galleryCategories = document.querySelectorAll('.gallery-category');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        galleryCategories.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                galleryCategories.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                const filter = btn.getAttribute('data-category');
+                
+                galleryItems.forEach(item => {
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Lightbox Gallery
+        const lightbox = document.querySelector('.lightbox');
+        const lightboxImg = document.querySelector('.lightbox-img');
+        const lightboxClose = document.querySelector('.lightbox-close');
+        const galleryImages = document.querySelectorAll('.gallery-img');
+        const prevBtn = document.querySelector('.lightbox-btn.prev');
+        const nextBtn = document.querySelector('.lightbox-btn.next');
+        let currentImageIndex = 0;
+
+        // Array to store all gallery images
+        const allGalleryImages = Array.from(galleryImages).map(img => img.src);
+        const allGalleryTitles = Array.from(galleryImages).map(img => 
+            img.nextElementSibling.querySelector('.gallery-title').textContent);
+
+        // Open lightbox with clicked image
+        galleryImages.forEach((img, index) => {
+            img.addEventListener('click', () => {
+                currentImageIndex = index;
+                updateLightboxImage();
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        // Update lightbox image
+        function updateLightboxImage() {
+            lightboxImg.src = allGalleryImages[currentImageIndex];
+            lightboxImg.alt = allGalleryTitles[currentImageIndex];
+        }
+
+        // Close lightbox
+        lightboxClose.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        // Close when clicking outside image
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Navigation between images
+        prevBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            currentImageIndex = (currentImageIndex - 1 + allGalleryImages.length) % allGalleryImages.length;
+            updateLightboxImage();
+        });
+
+        nextBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            currentImageIndex = (currentImageIndex + 1) % allGalleryImages.length;
+            updateLightboxImage();
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            
+            if (e.key === 'Escape') {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            } else if (e.key === 'ArrowLeft') {
+                currentImageIndex = (currentImageIndex - 1 + allGalleryImages.length) % allGalleryImages.length;
+                updateLightboxImage();
+            } else if (e.key === 'ArrowRight') {
+                currentImageIndex = (currentImageIndex + 1) % allGalleryImages.length;
+                updateLightboxImage();
+            }
+        });
+
+        // Google Maps Integration
+        function initMap() {
+            const mapLoader = document.querySelector('.map-loader');
+            const mapFrame = document.querySelector('.map-frame');
+            
+            // Hide loader and show map after a short delay (simulating load)
+            setTimeout(() => {
+                mapLoader.style.display = 'none';
+                mapFrame.style.display = 'block';
+                mapFrame.src = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.215209179335!2d-73.98832068459379!3d40.74844097932881!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9b3117469%3A0xd134e199a405a163!2sEmpire%20State%20Building!5e0!3m2!1sen!2sus!4v1629990000000!5m2!1sen!2sus';
+            }, 1500);
+        }
+
+        // Form Submission
+        const contactForm = document.querySelector('.contact-form');
+        
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Simulate form submission
+            const submitBtn = contactForm.querySelector('.form-submit');
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                submitBtn.innerHTML = '<i class="fas fa-check"></i> Sent Successfully';
+                submitBtn.style.backgroundColor = '#4CAF50';
+                
+                // Reset form after 3 seconds
+                setTimeout(() => {
+                    contactForm.reset();
+                    submitBtn.innerHTML = 'Send Message <i class="fas fa-paper-plane"></i>';
+                    submitBtn.style.backgroundColor = '';
+                    submitBtn.disabled = false;
+                    
+                    // Reset floating labels
+                    const formInputs = contactForm.querySelectorAll('.form-input');
+                    formInputs.forEach(input => {
+                        const label = input.nextElementSibling;
+                        if (input.value === '') {
+                            label.style.top = '15px';
+                            label.style.left = '20px';
+                            label.style.fontSize = '';
+                            label.style.backgroundColor = '';
+                            label.style.padding = '';
+                            label.style.color = '';
+                        }
+                    });
+                }, 3000);
+            }, 2000);
+        });
+
+        // Scroll Animation for Elements
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.about-img, .about-content, .room-card, .dining-text, .highlight-card, .menu-item, .amenity-card, .offer-card, .gallery-item, .location-map, .location-content, .contact-info, .contact-form');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.2;
+                
+                if (elementPosition < screenPosition) {
+                    element.classList.add('animated');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', animateOnScroll);
+        // Initial check in case elements are already in view
+        animateOnScroll();
+    </script>
+</body>
+</html>
